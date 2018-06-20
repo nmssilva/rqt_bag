@@ -52,6 +52,7 @@ class Bag(Plugin):
         args = self._parse_args(context.argv())
 
         self._widget = BagWidget(context, args.clock)
+
         if context.serial_number() > 1:
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
         context.add_widget(self._widget)

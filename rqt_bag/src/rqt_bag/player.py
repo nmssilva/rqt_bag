@@ -59,6 +59,9 @@ class Player(QObject):
     def resume(self):
         self._resume = True
 
+    def pause(self):
+        self._resume = False
+
     def is_publishing(self, topic):
         return topic in self._publishing
 

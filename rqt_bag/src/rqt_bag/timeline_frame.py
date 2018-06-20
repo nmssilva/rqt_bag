@@ -43,6 +43,7 @@ import threading
 from .index_cache_thread import IndexCacheThread
 from .plugins.raw_view import RawView
 
+from rqt_bag.srv import *
 
 class _SelectionMode(object):
     """
@@ -185,9 +186,20 @@ class TimelineFrame(QGraphicsItem):
         self.invalidated_caches = set()
         self._index_cache_thread = IndexCacheThread(self)
 
+        self.s = rospy.Service('pause', Pause, self.pause_cb)
+
     # TODO the API interface should exist entirely at the bag_timeline level. Add a "get_draw_parameters()" at the bag_timeline level to access these
     # Properties, work in progress API for plugins:
 
+    def pause_cb(self,req):
+        print req.control
+        if req.control == "Pause" :
+            self.pause()
+            return PauseResponse(req.control)
+        elif req.control == "Resume" :
+            self.resume()
+            return PauseResponse(req.control)
+        
     # property: playhead
     def _get_playhead(self):
         return self._playhead
